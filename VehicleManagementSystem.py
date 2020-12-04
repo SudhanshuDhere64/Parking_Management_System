@@ -79,7 +79,7 @@ def display():
     def bikef():
         bk = Tk()
         bk.title("Bike")
-        bk.geometry("450x450")
+        bk.geometry("439x250")
         heading = Label(bk, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
         heading.grid(row=0,columnspan=20, pady=10)
         f = open("bike.txt")
