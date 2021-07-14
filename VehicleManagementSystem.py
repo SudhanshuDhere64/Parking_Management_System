@@ -1,5 +1,11 @@
 from tkinter import *
 import datetime
+import tkinter.messagebox as messageBox
+import mysql.connector as mysql
+
+connectiondb=mysql.connect(host="localhost",user="root",passwd="",database="parking_management_system")
+cursordb=connectiondb.cursor()
+
 
 k = datetime.datetime.now()
 a = str(k.date())
@@ -18,8 +24,11 @@ def add():
     l1.grid(row=1, column=0)
     l2 = Label(root, text="Vehical No:")
     l2.grid(row=2, column=0)
-    owner = StringVar()
-    vno = StringVar()
+    global owner
+    owner= StringVar()
+    global vno
+    vno= StringVar()
+    i=1
 
     ownerentry = Entry(root, textvariable=owner)
     ownerentry.grid(row=1, column=1)
@@ -31,28 +40,51 @@ def add():
     l3.grid(row=3, column=0)
 
     def bikee():
+        i=1
         o = ownerentry.get()
         v = vnoentry.get()
-        f = open("bike.txt", 'a')
-        f.write(o.lower() + "   " + v + "   " + a + "   " + str(k.hour) + ":" + str(k.minute) + "\r\n")
+        vtype="Bike"
+        sql="insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+        valuesss=(o,v,vtype)
+        cursordb.execute(sql,valuesss)
+        connectiondb.commit()
+        i=i+1
 
     def care():
+        i=1
         o = ownerentry.get()
         v = vnoentry.get()
-        f = open("car.txt", 'a')
-        f.write(o.lower() + "   " + v + "   " + a + "    " + str(k.hour) + ":" + str(k.minute) + "\r\n")
+        vtype = "Car"
+        sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+        valuesss = (o, v, vtype)
+        cursordb.execute(sql, valuesss)
+        connectiondb.commit()
+        i = i + 1
+
 
     def lve():
+        i=1
         o = ownerentry.get()
         v = vnoentry.get()
-        f = open("lv.txt", 'a')
-        f.write(o.lower() + "    " + v + "    " + a + "     " + str(k.hour) + ":" + str(k.minute) + "\r\n")
+        vtype = "Lightvehicle"
+        sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+        valuesss = (o, v, vtype)
+        cursordb.execute(sql, valuesss)
+        connectiondb.commit()
+        i = i + 1
+
 
     def hve():
+        i=1
         o = ownerentry.get()
         v = vnoentry.get()
-        f = open("hv.txt", 'a')
-        f.write(o.lower() + "    " + v + "    " + a + "     " + str(k.hour) + ":" + str(k.minute) + "\r\n")
+        vtype = "Heavyvehicle"
+        sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+        valuesss = (o, v, vtype)
+        cursordb.execute(sql, valuesss)
+        connectiondb.commit()
+        i = i + 1
+
 
     def thankyou():
         l = Label(root, text="Parking Done!!!", font=10).grid(row=6, column=1)
@@ -75,64 +107,18 @@ def add():
 def display():
     disp = Tk()
     disp.title("display")
-
-    def bikef():
-        bk = Tk()
-        bk.title("Bike")
-        bk.geometry("439x250")
-        heading = Label(bk, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(row=0,columnspan=20, pady=10)
-        f = open("bike.txt")
-        txt = f.read()
-        flable = Label(bk, text=txt).grid(row=3, columnspan=4)
-        bk.mainloop()
-
-    def carf():
-        bk = Tk()
-        bk.title("car")
-        bk.geometry("450x450")
-        heading = Label(bk, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(row=0, columnspan=20, pady=10)
-        f = open("car.txt")
-        txt = f.read()
-        flable = Label(bk, text=txt).grid(row=3, columnspan=4)
-        bk.mainloop()
-
-    def lvf():
-        bk = Tk()
-        bk.title("Light vehicle")
-        heading = Label(bk, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(row=0, columnspan=20, pady=10)
-        bk.geometry("450x450")
-        f = open("lv.txt")
-        txt = f.read()
-        flable = Label(bk, text=txt).grid(row=3, columnspan=4)
-        bk.mainloop()
-
-    def hvf():
-        bk = Tk()
-        bk.title("Heavy Vehicle")
-        bk.geometry("450x450")
-        heading = Label(bk, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(row=0, columnspan=20, pady=10)
-        f = open("hv.txt")
-        txt = f.read()
-        flable = Label(bk, text=txt).grid(row=3, columnspan=4)
-        bk.mainloop()
-
     disp.geometry("439x300")
-    disp.minsize(439, 300)
-    disp.maxsize(439, 300)
+    # disp.minsize(439, 300)
+    # disp.maxsize(439, 300)
     heading = Label(disp, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-    heading.grid(columnspan=20, pady=10)
-    bikebutton = Button(disp, text="Bike", command=bikef, borderwidth=8, bg="red", padx=20,fg="white").grid(row=1, column=3,
-                                                                                                  pady=30, sticky="w")
-    carbutton = Button(disp, text="Car", command=carf, borderwidth=8, bg="red", padx=20,fg="white").grid(row=1, column=6, pady=30,
-                                                                                               sticky="w")
-    lvbutton = Button(disp, text="LightVehicle", command=lvf, borderwidth=8, bg="red",fg="white").grid(row=1, column=9, pady=30,
-                                                                                             sticky="w")
-    hvbutton = Button(disp, text="HeavyVehicle", command=hvf, borderwidth=8, bg="red",fg="white").grid(row=1, column=12, pady=30,
-                                                                                             sticky="w")
+    heading.grid(row=0,columnspan=20, pady=10)
+    values1 = "Bike"
+    sql1="select * from entry"
+    cursordb.execute(sql1)
+    myresult = cursordb.fetchall()
+    lab = Label(disp, text=myresult)
+    lab.grid(row=6, columnspan=10)
+
     disp.mainloop()
 
 
@@ -156,56 +142,20 @@ def search():
     sea.maxsize(439, 300)
     heading = Label(sea, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
     heading.grid(columnspan=20, pady=10)
+    l1 = Label(sea, text="Owner name:")
+    l1.grid(row=3, column=0, pady=10)
+    sowner = StringVar()
+    sownerentry = Entry(sea, textvariable=sowner)
+    sownerentry.grid(row=3, column=1, pady=10)
+    def traa():
+            key = sownerentry.get()
 
-    def bikes():
-        b = Tk()
-        b.geometry("439x500")
-        b.minsize(439, 500)
-        b.maxsize(439, 500)
-        heading = Label(b, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(columnspan=20, pady=10)
-
-        l1 = Label(b, text="Owner name:")
-        l1.grid(row=3, column=0, pady=10)
-        sowner = StringVar()
-        sownerentry = Entry(b, textvariable=sowner)
-        sownerentry.grid(row=3,  column=1, pady=10)
-
-        def tra():
-            key = sownerentry.get().lower()
-            f = open("bike.txt")
-            for line in f:
-                line = line.rstrip()
-                if line.startswith(key):
-                    lab = Label(b, text=line)
-                    lab.grid(row=6, columnspan=10)
-
-        tr = Button(b, text="submit", command=tra, borderwidth=8, padx=10, bg="gray").grid(row=4, column=1)
-
-    def cars():
-        b = Tk()
-        b.geometry("439x500")
-        b.minsize(439, 500)
-        b.maxsize(439, 500)
-        heading = Label(b, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(columnspan=20, pady=10)
-
-        l1 = Label(b, text="Owner name:")
-        l1.grid(row=3, column=0, pady=10)
-        sowner = StringVar()
-        sownerentry = Entry(b, textvariable=sowner)
-        sownerentry.grid(row=3, column=1, pady=10)
-
-        def traa():
-            key = sownerentry.get().lower()
-            f = open("car.txt")
-            for line in f:
-                line = line.rstrip()
-                if line.startswith(key):
-                    lab = Label(b, text=line)
-                    lab.grid(row=6)
-
-        tr = Button(b, text="submit", command=traa, borderwidth=8, padx=10, bg="gray").grid(row=4, column=1, sticky="w",
+            sql1 = "SELECT * FROM entry WHERE Owner_name='%s'" % (key)
+            cursordb.execute(sql1)
+            myresult = cursordb.fetchall()
+            lab = Label(sea, text=myresult)
+            lab.grid(row=6, columnspan=10)
+    tr = Button(sea, text="submit", command=traa, borderwidth=8, padx=10, bg="gray").grid(row=4, column=1, sticky="w",
                                                                                             pady=10)
 
     def lvs():
@@ -260,14 +210,7 @@ def search():
         tr = Button(b, text="submit", command=traaa, borderwidth=8, padx=10, bg="gray").grid(row=4, column=1,
                                                                                              sticky="w", pady=10)
 
-    bikebutton = Button(sea, text="Bike", command=bikes, borderwidth=8, bg="red", padx=20,fg="white").grid(row=2, column=3,
-                                                                                                 pady=30, padx=5)
-    carbutton = Button(sea, text="Car", borderwidth=8, bg="red", padx=20, command=cars,fg="white").grid(row=2, column=6, pady=30,
-                                                                                              padx=5)
-    lvbutton = Button(sea, text="LightVehicle", borderwidth=8, bg="red", command=lvs,fg="white").grid(row=2, column=9, pady=30,
-                                                                                            padx=5)
-    hvbutton = Button(sea, text="HeavyVehicle", borderwidth=8, bg="red", command=hvs,fg="white").grid(row=2, column=12, pady=30,
-                                                                                            padx=5)
+
 
     sea.mainloop()
 
