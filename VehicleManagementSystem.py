@@ -2,6 +2,7 @@ from tkinter import *
 import datetime
 import tkinter.messagebox as messageBox
 import mysql.connector as mysql
+import numpy as np
 
 connectiondb=mysql.connect(host="localhost",user="root",passwd="",database="parking_management_system")
 cursordb=connectiondb.cursor()
@@ -108,15 +109,28 @@ def display():
     disp = Tk()
     disp.title("display")
     disp.geometry("439x300")
-    # disp.minsize(439, 300)
-    # disp.maxsize(439, 300)
+    disp.minsize(439, 300)
+    disp.maxsize(439, 300)
     heading = Label(disp, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
     heading.grid(row=0,columnspan=20, pady=10)
     values1 = "Bike"
     sql1="select * from entry"
     cursordb.execute(sql1)
     myresult = cursordb.fetchall()
-    lab = Label(disp, text=myresult)
+    for row in myresult:
+        roww=' '.join(row)
+        w = print(roww)
+        file=open("file.txt","a")
+        file.write(roww+"\n")
+        file.close()
+
+
+    read_file=open("file.txt",'r')
+    file_read=read_file.read()
+    file = open("file.txt", 'w')
+    file.write(" ")
+    file.close()
+    lab = Label(disp, text=file_read)
     lab.grid(row=6, columnspan=10)
 
     disp.mainloop()
@@ -153,62 +167,26 @@ def search():
             sql1 = "SELECT * FROM entry WHERE Owner_name='%s'" % (key)
             cursordb.execute(sql1)
             myresult = cursordb.fetchall()
-            lab = Label(sea, text=myresult)
+            for row in myresult:
+                roww = ' '.join(row)
+                w = print(roww)
+                file = open("files.txt", "a")
+                file.write(roww + "\n")
+                file.close()
+
+            read_file = open("files.txt", 'r')
+            file_read = read_file.read()
+            file = open("files.txt", 'w')
+            file.write(" ")
+            file.close()
+
+            lab = Label(sea, text=file_read)
             lab.grid(row=6, columnspan=10)
     tr = Button(sea, text="submit", command=traa, borderwidth=8, padx=10, bg="gray").grid(row=4, column=1, sticky="w",
                                                                                             pady=10)
 
-    def lvs():
-        b = Tk()
-        b.geometry("439x500")
-        b.minsize(439, 500)
-        b.maxsize(439, 500)
-        heading = Label(b, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(columnspan=20, pady=10)
 
-        l1 = Label(b, text="Owner name:")
-        l1.grid(row=3, column=0, pady=10)
-        sowner = StringVar()
-        sownerentry = Entry(b, textvariable=sowner)
-        sownerentry.grid(row=3, column=1, pady=10)
 
-        def trae():
-            key = sownerentry.get().lower()
-            f = open("lv.txt")
-            for line in f:
-                line = line.rstrip()
-                if line.startswith(key):
-                    lab = Label(b, text=line)
-                    lab.grid(row=6)
-
-        tr = Button(b, text="submit", command=trae, borderwidth=8, padx=10, bg="gray").grid(row=4, column=1, sticky="w",
-                                                                                            pady=10)
-
-    def hvs():
-        b = Tk()
-        b.geometry("439x500")
-        b.minsize(439, 500)
-        b.maxsize(439, 500)
-        heading = Label(b, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
-        heading.grid(columnspan=20, pady=10)
-
-        l1 = Label(b, text="Owner name:")
-        l1.grid(row=3, column=0, pady=10)
-        sowner = StringVar()
-        sownerentry = Entry(b, textvariable=sowner)
-        sownerentry.grid(row=3, column=1, pady=10)
-
-        def traaa():
-            key = sownerentry.get().lower()
-            f = open("hv.txt")
-            for line in f:
-                line = line.rstrip()
-                if line.startswith(key):
-                    lab = Label(b, text=line)
-                    lab.grid(row=6)
-
-        tr = Button(b, text="submit", command=traaa, borderwidth=8, padx=10, bg="gray").grid(row=4, column=1,
-                                                                                             sticky="w", pady=10)
 
 
 
