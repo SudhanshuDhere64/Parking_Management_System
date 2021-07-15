@@ -15,4 +15,4 @@ Parking Management System allows user to easily manage the details about transpo
 <br>
 <h1>SEARCH SCREEN</h1>
 <br>
-<img src="Searchpage.PNG">
+<img src="SearchPage.JPG">
