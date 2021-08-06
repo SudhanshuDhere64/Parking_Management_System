@@ -60,37 +60,43 @@ def add():
         i=1
         o = ownerentry.get()
         v = vnoentry.get()
-        vtype = "Car"
-        sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
-        valuesss = (o, v, vtype)
-        cursordb.execute(sql, valuesss)
-        connectiondb.commit()
-        i = i + 1
-
+        if len(o) != 0 and len(v) != 0:
+            vtype = "Car"
+            sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+            valuesss = (o, v, vtype)
+            cursordb.execute(sql, valuesss)
+            connectiondb.commit()
+            i = i + 1
+        else:
+            messagebox.showerror("showerror", "Fill the Details First")
 
     def lve():
         i=1
         o = ownerentry.get()
         v = vnoentry.get()
-        vtype = "Lightvehicle"
-        sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
-        valuesss = (o, v, vtype)
-        cursordb.execute(sql, valuesss)
-        connectiondb.commit()
-        i = i + 1
-
+        if len(o) != 0 and len(v) != 0:
+            vtype = "Lightvehicle"
+            sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+            valuesss = (o, v, vtype)
+            cursordb.execute(sql, valuesss)
+            connectiondb.commit()
+            i = i + 1
+        else:
+            messagebox.showerror("showerror", "Fill the Details First")
 
     def hve():
         i=1
         o = ownerentry.get()
         v = vnoentry.get()
-        vtype = "Heavyvehicle"
-        sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
-        valuesss = (o, v, vtype)
-        cursordb.execute(sql, valuesss)
-        connectiondb.commit()
-        i = i + 1
-
+        if len(o) != 0 and len(v) != 0:
+            vtype = "Heavyvehicle"
+            sql = "insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+            valuesss = (o, v, vtype)
+            cursordb.execute(sql, valuesss)
+            connectiondb.commit()
+            i = i + 1
+        else:
+            messagebox.showerror("showerror", "Fill the Details First")
 
     def thankyou():
         l = Label(root, text="Parking Done!!!", font=10).grid(row=6, column=1)
