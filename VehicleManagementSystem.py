@@ -1,8 +1,9 @@
 from tkinter import *
 import datetime
-import tkinter.messagebox as messageBox
+from tkinter import messagebox
+
 import mysql.connector as mysql
-import numpy as np
+import pandas as pd
 
 connectiondb=mysql.connect(host="localhost",user="root",passwd="",database="parking_management_system")
 cursordb=connectiondb.cursor()
@@ -41,15 +42,19 @@ def add():
     l3.grid(row=3, column=0)
 
     def bikee():
-        i=1
+
         o = ownerentry.get()
         v = vnoentry.get()
-        vtype="Bike"
-        sql="insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
-        valuesss=(o,v,vtype)
-        cursordb.execute(sql,valuesss)
-        connectiondb.commit()
-        i=i+1
+        if len(o)!=0 and len(v)!=0:
+            vtype="Bike"
+            sql="insert into entry(Owner_name,Vehicle_number,Vehicle_type) values (%s,%s,%s)"
+            valuesss=(o,v,vtype)
+            cursordb.execute(sql,valuesss)
+            connectiondb.commit()
+        else:
+            messagebox.showerror("showerror", "Fill the Details First")
+
+
 
     def care():
         i=1
@@ -108,9 +113,9 @@ def add():
 def display():
     disp = Tk()
     disp.title("display")
-    disp.geometry("439x300")
-    disp.minsize(439, 300)
-    disp.maxsize(439, 300)
+    disp.geometry("439x600")
+    disp.minsize(439, 600)
+    disp.maxsize(439, 600)
     heading = Label(disp, text="PARKING MANAGEMANT SYSTEM", bg="black", fg="white", font=("Times New Roman", 20))
     heading.grid(row=0,columnspan=20, pady=10)
     values1 = "Bike"
